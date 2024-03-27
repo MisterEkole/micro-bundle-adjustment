@@ -27,7 +27,7 @@ def schur_solve(cam_block: torch.Tensor, cross_block: torch.Tensor, point_block:
 
 def compute_jacobians_residuals_and_loss(jacobian_operator_x, jacobian_operator_theta,
                       observations, theta, f, X, 
-                      K, N, M, D, C, device = "cuda", dtype = torch.float32):
+                      K, N, M, D, C, device = "cpu", dtype = torch.float32):
     # Create accumulator for x jacobians, each 3D point projects into (assumed) all images
     J_x = torch.zeros((N, M, 2, D), device = device, dtype = dtype)# TODO: obviously each point X is not seen in every image
     # Accumulator for theta jacobians, each theta produces residuals in its own image 
@@ -52,7 +52,7 @@ def compute_jacobian_operators(f) -> tuple[Callable, Callable]:
     jacobian_operator_theta = jacfwd(f, 1)
     return jacobian_operator_x, jacobian_operator_theta
 
-def lm_optimize(f, X_0, theta_0, observations, num_steps = 100, L_0 = 10, device = "cuda" , dtype = torch.float64):
+def lm_optimize(f, X_0, theta_0, observations, num_steps = 100, L_0 = 10, device = "cpu" , dtype = torch.float64):
     # See https://en.wikipedia.org/wiki/Levenberg%E2%80%93Marquardt_algorithm for details
     N, D = X_0.shape
     K = N # Assume num observations is equal to num 3D points

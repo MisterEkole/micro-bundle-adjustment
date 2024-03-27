@@ -1,13 +1,13 @@
 import torch
 from torch.func import vmap
 from kornia.geometry import axis_angle_to_rotation_matrix, relative_camera_motion, rotation_matrix_to_axis_angle
-from micro_bundle_adjustment.api import projection, optimize_calibrated
+from api import projection, optimize_calibrated
 
 
 if __name__ == "__main__":
     N = 1_000_000
     dtype = torch.float32
-    device = "cuda"
+    device = "cpu"
     X = torch.randn(N, 3).to(device=device,dtype=dtype)
     X[...,2] = X[...,2] + 10
     

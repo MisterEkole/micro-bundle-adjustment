@@ -1,6 +1,6 @@
 import torch
 from kornia.geometry import axis_angle_to_rotation_matrix
-from .optimizer import lm_optimize
+from optimizer import lm_optimize
 
 def projection(X, r, t):
     R = axis_angle_to_rotation_matrix(r[None])[0]
